@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'COLF.IO',
   tagline: 'Colfio Docs',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.png',
 
   url: 'https://colf.io',
   baseUrl: '/',
@@ -43,17 +43,23 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      image: 'img/colfio-social-card.jpg',
       navbar: {
-        title: 'COLFIO',
+        title: 'COLF.IO',
         logo: {
           alt: 'Colfio Logo',
-          src: 'img/logo.svg',
+          src: 'img/colfio_icon.svg',
         },
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'installation',
+            position: 'left',
+            label: 'Installation',
+          },
+          {
+            type: 'doc',
+            docId: 'tutorialBasics/firstSteps',
             position: 'left',
             label: 'Tutorial',
           },
@@ -65,18 +71,6 @@ const config = {
         ],
       },
       footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-        ],
         copyright: `Copyright © ${new Date().getFullYear()} APHGAMES`,
       },
       prism: {

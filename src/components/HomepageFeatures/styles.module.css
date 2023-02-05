@@ -1,3 +1,4 @@
+
 .features {
   display: flex;
   align-items: center;
@@ -8,4 +9,12 @@
 .featureSvg {
   height: 200px;
   width: 200px;
+}
+
+.section__odd {
+  background-color: var(--ifm-bgr-row);
+}
+
+.gallery div, .gallery p {
+  text-align: center;
 }

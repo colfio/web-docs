@@ -10,32 +10,29 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Easy to Learn',
+    Svg: require('@site/static/img/feature_learn.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Colf.io is extremely easy to pick up. Within a few minutes, you will be able to understand how components are wired up.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Easy to Prototype',
+    Svg: require('@site/static/img/feature_prototype.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Thanks to the component-oriented approach, you will be able to iteratively prototype your project from the very beginning. 
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Easy to Educate',
+    Svg: require('@site/static/img/feature_educate.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        As colf.io can be easily incorporated into any webpage, it can be used to demonstrate any kind of visual data processing, algorithms, and patterns.
       </>
     ),
   },
@@ -57,7 +54,8 @@ function Feature({title, Svg, description}: FeatureItem) {
 
 export default function HomepageFeatures(): JSX.Element {
   return (
-    <section className={styles.features}>
+    <>
+     <section className={styles.features}>
       <div className="container">
         <div className="row">
           {FeatureList.map((props, idx) => (
@@ -66,5 +64,13 @@ export default function HomepageFeatures(): JSX.Element {
         </div>
       </div>
     </section>
+    <section className={clsx(styles.features, styles.section__odd, styles.gallery)}>
+      <div className="container">
+        <h2>Gallery</h2>
+        <p>Check out all games made in Colf.io on our <a href="https://aphgames.io/gallery">APHGames webpage</a>!</p>
+        <img src='img/gallery.jpg' />
+      </div>
+    </section>
+    </>
   );
 }

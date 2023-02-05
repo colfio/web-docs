@@ -12,16 +12,16 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <h1 className="hero__title">COLF.IO</h1>
+        <p className="hero__subtitle">Component-Oriented Library For Interactive Objects</p>
+        <img src="/img/colfio.png" />
         <div className={styles.buttons}>
-          <Link
+        <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
+            to="/docs/installation">Quick Start
+        </Link>
         </div>
-        <h1>WIP! This page is not ready yet!</h1>
+        <p>Created by Adam Vesecký</p>
       </div>
     </header>
   );

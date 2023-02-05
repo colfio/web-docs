@@ -1,6 +1,6 @@
 {
-  "name": "colfio",
-  "version": "0.0.0",
+  "name": "colfio-web",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
