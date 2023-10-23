@@ -12,14 +12,15 @@ import styles from '@site/src/css/docs.module.css';
 ## Installation
 
 ### Prerequisities
-- you will need [NodeJS](https://nodejs.org/en/download/) installed, version 16 or higher
+- you will need [NodeJS](https://nodejs.org/en/download/) installed, version 18 or higher
 
 ### Creating a PIXI project
 - in your empty directory, initialize a new project by typing `npm init`
 - install [ParcelJS bundler](https://parceljs.org/) by typing `npm install --save-dev parcel`
-  - **note:** we use Parcel for our examples, but you can use any bundling tool of your choosing!
+  - **note:** we use Parcel for our examples, but you can use any bundling tool of your choosing (Webpack or Vite)!
 - install [PixiJS library](https://pixijs.com/) by typing `npm install pixi.js`
-- your `package.json` should look like this:
+  - install a Pixi Loader that is bundled separately since version 6: `npm install @pixi/loaders`
+- your `package.json` should look like this (the version numbers can differ):
 
 ```json
 {
@@ -33,16 +34,16 @@ import styles from '@site/src/css/docs.module.css';
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "parcel": "^2.10.0"
   },
   "dependencies": {
-    "pixi.js": "^7.1.2",
-    "colfio": "^0.3.0"
+    "@pixi/loaders": "^6.5.10",
+    "pixi.js": "^7.3.2"
   }
 }
 ```
 
-- install a plugin for copying static files: `npm install -D parcel-reporter-static-files-copy`
+- install a plugin for copying static files during hot-reload: `npm install -D parcel-reporter-static-files-copy`
 - create a `static` directory in the root folder of your project
 - create a file `.parcelrc` in the root folder of your project and add the following statement (the `...` must be there, indeed):
 
@@ -53,7 +54,7 @@ import styles from '@site/src/css/docs.module.css';
 }
 ```
 
-- get a picture and copy it into your static folder (e.g. <a href={useBaseUrl('img/docs/creature.png')}>creature.png</a>)
+- get a picture and copy it into your static folder (e.g. <a href={useBaseUrl('img/docs/creature.png')} target="_blank">creature.png</a>)
 
   <img src={useBaseUrl('img/docs/creature.png')} />
 
@@ -90,59 +91,61 @@ import styles from '@site/src/css/docs.module.css';
 - create a file `my-game.ts` in your `src` folder with the following content:
 
 ```typescript
-import * as COLFIO from 'colfio';
+import * as CF from 'colfio';
 import * as PIXI from 'pixi.js';
-
+import { Loader } from '@pixi/loaders';
 
 class MyGame {
-	engine: COLFIO.Engine;
+    engine: CF.Engine;
 
-	constructor() {
-		this.engine = new COLFIO.Engine();
-		let canvas = (document.getElementById('gameCanvas') as HTMLCanvasElement);
+    constructor() {
+        this.engine = new CF.Engine();
+        let canvas = (document.getElementById('gameCanvas') as HTMLCanvasElement);
 
-		// init the game loop
-		this.engine.init(canvas, {
-			resizeToScreen: true,
-			width: 800,
-			height: 600,
-			resolution: 1,
-		});
+        // init the game loop
+        this.engine.init(canvas, {
+            resizeToScreen: true,
+            width: 800,
+            height: 600,
+            resolution: 1,
+        });
 
-    	// using PIXI loader, load all assets
-		this.engine.app.loader
-			.reset()
-			.add('creature.png')
-			.load(() => this.onAssetsLoaded());
-	}
+        const loader = new Loader();
+        // using PIXI loader, load all assets
+        loader
+            .reset()
+            .add('creature.png')
+            .load(() => this.onAssetsLoaded());
+    }
 
-	onAssetsLoaded() {
-		// init the scene and run your game
-		let scene = this.engine.scene;
+    onAssetsLoaded() {
+        // init the scene and run your game
+        let scene = this.engine.scene!!;
 
-		// a little hack that generates a loop with 100 runs
-		Array(100).fill(0, 0, 100).forEach(() => {
-			new COLFIO.Builder(scene)
-				// random position anywhere in the scene
-				.localPos(Math.random() * this.engine.app.screen.width, 
-					Math.random() * this.engine.app.screen.height)
-				.anchor(0.5)
-				.scale(0.15)
-				.withParent(scene.stage)
-				// create a functional component that will increase the rotation every single frame
-				.withComponent(new COLFIO.FuncComponent('rotationAnim')
-					.doOnUpdate((cmp, delta, absolute) => cmp.owner.rotation += 0.001 * delta))
-				.asSprite(PIXI.Texture.from('creature.png'))
-				.build();
-		});
-	}
+        // a little hack that generates a loop with 100 runs
+        Array(100).fill(0, 0, 100).forEach(() => {
+            new CF.Builder(scene)
+                // random position anywhere in the scene
+                .localPos(Math.random() * this.engine.app!!.screen.width, 
+                    Math.random() * this.engine.app!!.screen.height)
+                .anchor(0.5)
+                .scale(0.15)
+                .withParent(scene.stage)
+                // create a functional component that will increase the rotation every single frame
+                .withComponent(new CF.FuncComponent('rotationAnim')
+                    .doOnUpdate((cmp, delta, absolute) => cmp.owner.rotation += 0.001 * delta))
+                .asSprite(PIXI.Texture.from('creature.png'))
+                .build();
+        });
+    }
 }
 
 // this will create a new instance as soon as this file is loaded
 export default new MyGame();
+
 ```
 
-- the very last thing would be to create a script that will make parcel build and run the project:
+- the very last thing would be to create a script that will make parcel build and run the project. Edit the `package.json` file and replace the current `scripts` section with this one:
 ```json
   "scripts": {
     "dev": "parcel view/index.html",
@@ -152,7 +155,6 @@ export default new MyGame();
 
 - `npm run dev` will run a development server. You can now navigate to the url `http://localhost:1234/index.html` to see the example
 - `npm run build` will build your project into the `dist` directory
-
 
 <div className={styles.figure}>
   <img src={useBaseUrl('img/docs/example.png')} />
